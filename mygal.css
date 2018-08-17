@@ -8,5 +8,5 @@ body{margin:0;padding:0;cursor:e-resize;}
 #title{font-size:1.2em}
 #descr{}
 #video{display:none;}
-
+#slider{position:fixed;left:0;margin:0;width:100%;bottom:10px;opacity:0.4;cursor:pointer}
 a{color:#ee0}

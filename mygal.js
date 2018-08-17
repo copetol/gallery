@@ -1,12 +1,9 @@
-var area_count;
-var area_date;
-var area_title;
-var area_descr;
-var area_video;
+var area_count, area_date, area_title, area_descr, area_video, slider;
 
 window.onload=function()
 {
 document.body.style.height="100%";
+slider=document.createElement("input");     slider.id="slider";slider.type="range";slider.min="0";slider.max=images.length-1;slider.value="1";
 img_info=document.createElement("div");     img_info.id="img-info";
 area_count=document.createElement("div");   area_count.id="count";
 area_date=document.createElement("div");    area_date.id="date";
@@ -20,8 +17,10 @@ img_info.appendChild(area_date);
 img_info.appendChild(area_title);
 img_info.appendChild(area_descr);
 document.body.appendChild(left_area);
+document.body.appendChild(slider);
 
 bgimg(0);
+slider.onchange=function(event){index=parseInt(this.value);area_count.innerHTML=index+1+" / "+img_num;event.stopImmediatePropagation();}
 };
 
 
@@ -103,17 +102,21 @@ if((dx<50)&&(dx>-50))
   preventDefault();
   return;
   }
-bgimg(change_index(Math.sign(dx)));
+var newindex=change_index(Math.sign(dx));
+slider.value=newindex;
+bgimg(newindex);
 dx=0;
 }
 
 function handler_click(event)
 {
-if(doc_width/2>event.clientX)bgimg(change_index(-1));
-else bgimg(change_index(1));
+var newindex=change_index(doc_width/2>event.clientX?-1:1);
+slider.value=newindex;
+bgimg(newindex);
 }
 
 window.addEventListener("touchstart",handler_ts,{capture:true});
 window.addEventListener("touchmove",handler_tm,{capture:true});
 window.addEventListener("touchend",handler_te,{capture:true});
 window.addEventListener("click",handler_click,{capture:true});
+
