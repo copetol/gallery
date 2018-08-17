@@ -1,8 +1,8 @@
-var area_count;//=document.getElementById("count");
-var area_date;//=document.getElementById("date");
-var area_title;//=document.getElementById("title");
-var area_descr;//=document.getElementById("descr");
-var area_video;//=document.getElementById("video");
+var area_count;
+var area_date;
+var area_title;
+var area_descr;
+var area_video;
 
 window.onload=function()
 {
@@ -56,14 +56,13 @@ return index;
 var old_idx=-1;
 function bgimg(idx)
 {
-//alert(old_idx+' - '+idx);
 if(old_idx==idx)return;
 old_idx=idx;
 area_count.innerHTML=index+1+" / "+img_num;
 area_date.innerHTML=images[idx][IMG_DATA_IDX];
 area_title.innerHTML=images[idx][IMG_TITLE_IDX];
 area_descr.innerHTML=images[idx][IMG_DESCR_IDX];
-//
+
 img.onload = function() {
   var kw=doc_width/this.width;
   var kh=doc_height/this.height;
