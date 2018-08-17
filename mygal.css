@@ -1,0 +1,12 @@
+body{margin:0;padding:0;cursor:e-resize;}
+#left-area{width:50%;height:100%;border:none;cursor:w-resize;float:left;}
+#img-info{padding:3px;margin:0;position:fixed;font:14px Helvetica, Arial, sans-serif;color:#fff;width:50%;}
+#img-info div{background-color:rgba(0,0,0,0.6);padding:1px;display:inline;border-radius:3px}
+#img-info div:not(:first-child)::before {content:".";line-height:0.3em;display:block;visibility: hidden;}
+#count{font-size:1.2em;color:#aaa;}
+#date{color:#aaa;}
+#title{font-size:1.2em}
+#descr{}
+#video{display:none;}
+
+a{color:#ee0}
