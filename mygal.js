@@ -20,7 +20,7 @@ document.body.appendChild(left_area);
 document.body.appendChild(slider);
 
 bgimg(0);
-slider.onchange=function(event){index=parseInt(this.value);area_count.innerHTML=index+1+" / "+img_num;event.stopImmediatePropagation();}
+slider.oninput=function(event){index=parseInt(this.value)+1;area_count.innerHTML=index+" / "+img_num;event.stopImmediatePropagation();}
 };
 
 
