@@ -1,7 +1,33 @@
 var area_count, area_date, area_title, area_descr, area_video, slider;
 
+const IMG_URL_IDX=1;
+const IMG_DATA_IDX=0;
+const IMG_TITLE_IDX=2;
+const IMG_DESCR_IDX=3;
+const IMG_GPS_IDX=4;
+var index=0;
+var img_num=0;//images.length;
+var img = new Image();
+var preview=new Image();
+
+
+var body = document.body,
+    html = document.documentElement;
+
+var doc_height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+var doc_width = Math.max( body.scrollWidth, body.offsetWidth, 
+                       html.clientWidth, html.scrollWidth, html.offsetWidth );
+
+
 window.onload=function()
 {
+var url=window.location.search.substr(1);
+var script = document.createElement("script");  // create a script DOM node
+script.setAttribute('src', url+".js");  // set its src to the provided URL
+script.onload=function(){
+
+img_num=images.length;
 document.body.style.height="100%";
 slider=document.createElement("input");     slider.id="slider";slider.type="range";slider.min="0";slider.max=images.length-1;slider.value="1";
 img_info=document.createElement("div");     img_info.id="img-info";
@@ -23,24 +49,10 @@ bgimg(0);
 slider.oninput=function(event){index=parseInt(this.value)+1;area_count.innerHTML=index+" / "+img_num;event.stopImmediatePropagation();}
 };
 
+document.head.appendChild(script);
+//import {images} from "./usa.js";
+};
 
-const IMG_URL_IDX=1;
-const IMG_DATA_IDX=0;
-const IMG_TITLE_IDX=2;
-const IMG_DESCR_IDX=3;
-var index=0;
-var img_num=images.length;
-var img = new Image();
-var preview=new Image();
-
-
-var body = document.body,
-    html = document.documentElement;
-
-var doc_height = Math.max( body.scrollHeight, body.offsetHeight, 
-                       html.clientHeight, html.scrollHeight, html.offsetHeight );
-var doc_width = Math.max( body.scrollWidth, body.offsetWidth, 
-                       html.clientWidth, html.scrollWidth, html.offsetWidth );
 
 
 function change_index(n)
@@ -58,9 +70,17 @@ function bgimg(idx)
 if(old_idx==idx)return;
 old_idx=idx;
 area_count.innerHTML=index+1+" / "+img_num;
+if(images[idx][IMG_GPS_IDX])
+  area_count.innerHTML+=' <a style="text-decoration:none" target=_blank href=https://google.com/maps/place/'+images[idx][IMG_GPS_IDX]+'>&#127760;</a>';  //&#128506;</a>';
 area_date.innerHTML=images[idx][IMG_DATA_IDX];
 area_title.innerHTML=images[idx][IMG_TITLE_IDX];
-area_descr.innerHTML=images[idx][IMG_DESCR_IDX];
+if(images[idx][IMG_DESCR_IDX]) {
+  area_descr.innerHTML=images[idx][IMG_DESCR_IDX];
+  area_descr.style.display='inline';
+}
+else {
+  area_descr.style.display='none';
+}
 
 img.onload = function() {
   var kw=doc_width/this.width;
