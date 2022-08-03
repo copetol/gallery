@@ -43,25 +43,30 @@ gpslong=$(get_coord "`identify -format "%[exif:GPSLongitude]" $img`" "`identify 
 #echo $gpslat'+'$gpslong
 #exit
 
-echo  "images.push(['$datetime','img/$img','','','$gpslat+$gpslong']);"
-ori=`identify -format "%[exif:Orientation]" $img`
+coord=""
+if [ ! -z "$gpslat" ] || [ ! -z "$gpslong" ]; then
+  coord="$gpslat+$gpslong"
+fi
 
-extension="${img##*.}"
-filename="${img%.*}"
-rotate=""
-if [ $ori == 8 ];then
-  rotate="-90"
-  newimg=$filename'_rot270.'$extension
-elif [ $ori == 6 ];then
-  rotate="90"
-  newimg=$filename'_rot90.'$extension
-elif [ $ori == 3 ];then
-  rotate="180"
-  newimg=$filename'_rot180.'$extension
-fi
-if [ $rotate ]; then
-  convert -rotate $rotate $img $newimg
-  echo  "images.push(['$datetime','img/$newimg','','','$gpslat+$gpslong']);"
-fi
+echo  "images.push(['$datetime','img/$img','','','$coord']);"
+
+#ori=`identify -format "%[exif:Orientation]" $img`
+#extension="${img##*.}"
+#filename="${img%.*}"
+#rotate=""
+#if [ $ori == 8 ];then
+#  rotate="-90"
+#  newimg=$filename'_rot270.'$extension
+#elif [ $ori == 6 ];then
+#  rotate="90"
+#  newimg=$filename'_rot90.'$extension
+#elif [ $ori == 3 ];then
+#  rotate="180"
+#  newimg=$filename'_rot180.'$extension
+#fi
+#if [ $rotate ]; then
+#  convert -rotate $rotate $img $newimg
+#  echo  "images.push(['$datetime','img/$newimg','','','$gpslat+$gpslong']);"
+#fi
 
 done

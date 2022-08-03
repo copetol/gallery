@@ -36,6 +36,14 @@ area_date=document.createElement("div");    area_date.id="date";
 area_title=document.createElement("div");   area_title.id="title";
 area_descr=document.createElement("div");   area_descr.id="descr";
 left_area=document.createElement("div");    left_area.id="left-area";
+var videoplayer=document.createElement("video"); videoplayer.id="videoplayer"; videoplayer.width="100"; videoplayer.height="100"; videoplayer.controls="controls";
+vp_source=document.createElement("source"); vp_source.type="video/mp4";
+videoplayer.appendChild(vp_source)
+videoplayer.width=doc_width;
+videoplayer.height=doc_height;
+videoplayer.style.display="inline";
+//<video id="videoplayer" width="100%" height="100%" controls="controls"/> <source src="vid.mp4" type="video/mp4"> </video> 
+
 
 document.body.appendChild(img_info);
 img_info.appendChild(area_count);
@@ -43,8 +51,8 @@ img_info.appendChild(area_date);
 img_info.appendChild(area_title);
 img_info.appendChild(area_descr);
 document.body.appendChild(left_area);
+document.body.appendChild(videoplayer);
 document.body.appendChild(slider);
-
 bgimg(0);
 slider.oninput=function(event){index=parseInt(this.value)+1;area_count.innerHTML=index+" / "+img_num;event.stopImmediatePropagation();}
 };
@@ -82,7 +90,22 @@ else {
   area_descr.style.display='none';
 }
 
+imgtype=images[idx][IMG_URL_IDX].split('.').pop();
+if(imgtype=="mp4") {
+  vp_source.src=images[idx][IMG_URL_IDX];
+  left_area.style.display="none";
+  videoplayer.style.display="block";
+  videoplayer.load();
+  //videoplayer.play();
+}
+else {
+left_area.style.display="block";
+videoplayer.load()
+videoplayer.style.display="none";
+
+
 img.onload = function() {
+  videoplayer.pause();
   var kw=doc_width/this.width;
   var kh=doc_height/this.height;
   if(kw>kh)sizestr="auto "+doc_height+"px";
@@ -92,6 +115,7 @@ img.onload = function() {
 document.body.style.background = "black url('"+this.src+"') fixed no-repeat center content-box";
 document.body.style.backgroundSize = sizestr;
 //preview.src=images[idx+1][IMG_URL_IDX];
+}
 }
 document.body.style.background = "black url('/progress.gif') fixed no-repeat center content-box";
 img.src = images[idx][IMG_URL_IDX];
@@ -130,9 +154,12 @@ dx=0;
 
 function handler_click(event)
 {
-var newindex=change_index(doc_width/2>event.clientX?-1:1);
-slider.value=newindex;
-bgimg(newindex);
+if((event.target.tagName!='A') && (event.target.tagName!='a'))
+  {
+  var newindex=change_index(doc_width/2>event.clientX?-1:1);
+  slider.value=newindex;
+  bgimg(newindex);
+  }
 }
 
 window.addEventListener("touchstart",handler_ts,{capture:true});
